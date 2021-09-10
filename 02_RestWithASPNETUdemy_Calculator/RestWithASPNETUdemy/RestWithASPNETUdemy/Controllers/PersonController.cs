@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace RestWithASPNETUdemy.Controllers
 {
+    [ApiVersion("1")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
-        private IPersonService _personService;
+        private readonly IPersonService _personService;
 
         public PersonController(ILogger<PersonController> logger, IPersonService personService)
         {
