@@ -1,73 +1,78 @@
-﻿using RestWithASPNETUdemy.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using RestWithASPNETUdemy.Model.Base;
 using RestWithASPNETUdemy.Model.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RestWithASPNETUdemy.Repository.Implementations
+namespace RestWithASPNETUdemy.Repository.Generic
 {
-    public class PersonRepositoryImplementation : IPersonRepository
+    public class GenericRepository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly MySQLContext _context;
+        private readonly DbSet<T> _dataset;
 
-        public PersonRepositoryImplementation(MySQLContext context)
+        public GenericRepository(MySQLContext context)
         {
             _context = context;
+            _dataset = _context.Set<T>();
         }
 
-        public List<Person> FindAll()
+        public List<T> FindAll()
         {
-            return _context.Persons.ToList();
+            return _dataset.ToList();
         }
 
-        public Person FindById(long id)
+        public T FindById(long id)
         {
-            return _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            return _dataset.SingleOrDefault(p => p.Id.Equals(id));
         }
 
-        public Person Create(Person person)
+        public T Create(T entity)
         {
             try
             {
-                _context.Persons.Add(person);
+                _dataset.Add(entity);
                 _context.SaveChanges();
+                return entity;
             }
             catch (Exception ex)
             {
                 throw;
             }
 
-            return person;
         }
 
-        public Person Update(Person person)
+        public T Update(T entity)
         {
-            if (!Exists(person.Id)) return null;
-
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
+            var result = _dataset.SingleOrDefault(p => p.Id.Equals(entity.Id));
             if (result != null)
             {
                 try
                 {
-                    _context.Entry(result).CurrentValues.SetValues(person);
+                    _context.Entry(result).CurrentValues.SetValues(entity);
                     _context.SaveChanges();
+                    return result;
                 }
                 catch (Exception ex)
                 {
                     throw;
                 }
             }
-            return person;
+            else
+            {
+                return null;
+            }
         }
 
         public void Delete(long id)
         {
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            var result = _dataset.SingleOrDefault(p => p.Id.Equals(id));
             if (result != null)
             {
                 try
                 {
-                    _context.Persons.Remove(result);
+                    _dataset.Remove(result);
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
@@ -79,7 +84,7 @@ namespace RestWithASPNETUdemy.Repository.Implementations
 
         public bool Exists(long id)
         {
-            return _context.Persons.Any(p => p.Id.Equals(id));
+            return _dataset.Any(p => p.Id == id);
         }
     }
 }
