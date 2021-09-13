@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Business.Implementations;
 using RestWithASPNETUdemy.Model.Context;
@@ -37,10 +38,21 @@ namespace RestWithASPNETUdemy
 
             var connection = Configuration["MySQLConnection:MySQLConnectionString"];
             services.AddDbContext<MySQLContext>(options => options.UseMySql(connection));
+
             if (Environment.IsDevelopment())
             {
                 MigrateDatabase(connection);
             }
+
+            services.AddMvc(options =>
+            {
+                //aceitar a propriedade que vier setada no Accept do Header do cabeçalho da request
+                options.RespectBrowserAcceptHeader = true;
+
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            }).AddXmlSerializerFormatters();
+
 
             //Versionamento API
             services.AddApiVersioning();
