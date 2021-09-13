@@ -1,8 +1,11 @@
-﻿using System.Text.Json.Serialization;
+﻿using RestWithASPNETUdemy.Hypermedia;
+using RestWithASPNETUdemy.Hypermedia.Abstract;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace RestWithASPNETUdemy.Data.VO
 {
-    public class PersonVO
+    public class PersonVO : ISupporstHyperMedia
     {
         [JsonPropertyName("code")]
         public long Id { get; set; }
@@ -18,5 +21,7 @@ namespace RestWithASPNETUdemy.Data.VO
 
         [JsonPropertyName("sex")]
         public string Genre { get; set; }
+        
+        public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }
