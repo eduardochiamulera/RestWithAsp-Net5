@@ -27,6 +27,10 @@ namespace RestWithASPNETUdemy.Controllers
 
         [HttpGet]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [ProducesResponseType((200), Type = typeof(List<PersonVO>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get()
         {
             return Ok(_personService.FindAll());
@@ -34,6 +38,10 @@ namespace RestWithASPNETUdemy.Controllers
         
         [HttpGet("{id}")]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Get(long id)
         {
             var person = _personService.FindById(id);
@@ -45,6 +53,10 @@ namespace RestWithASPNETUdemy.Controllers
         
         [HttpPost]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -54,6 +66,9 @@ namespace RestWithASPNETUdemy.Controllers
         
         [HttpPut]
         [TypeFilter(typeof(HyperMediaFilter))]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -62,6 +77,9 @@ namespace RestWithASPNETUdemy.Controllers
         }
         
         [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
         public IActionResult Delete(long id)
         {
             _personService.Delete(id);
