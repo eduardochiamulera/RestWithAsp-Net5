@@ -80,7 +80,19 @@ namespace RestWithASPNETUdemy.Controllers
 
             return Ok(_personService.Update(person));
         }
-        
+
+        [HttpPatch("{id}")]
+        [TypeFilter(typeof(HyperMediaFilter))]
+        [ProducesResponseType((200), Type = typeof(PersonVO))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(401)]
+        [Authorize("Bearer")]
+        public IActionResult Patch(long id)
+        {
+            return Ok(_personService.Disable(id));
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

@@ -21,7 +21,9 @@ namespace RestWithASPNETUdemy.Data.VO
 
         [JsonPropertyName("sex")]
         public string Genre { get; set; }
-        
+
+        public bool Enabled { get; set; }
+
         public List<HyperMediaLink> Links { get; set; } = new List<HyperMediaLink>();
     }
 }
