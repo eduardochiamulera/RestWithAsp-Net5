@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestWithASPNETUdemy.Data.VO;
 using RestWithASPNETUdemy.Hypermedia.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RestWithASPNETUdemy.Controllers
 {
@@ -31,6 +32,7 @@ namespace RestWithASPNETUdemy.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Get()
         {
             return Ok(_personService.FindAll());
@@ -42,6 +44,7 @@ namespace RestWithASPNETUdemy.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Get(long id)
         {
             var person = _personService.FindById(id);
@@ -57,6 +60,7 @@ namespace RestWithASPNETUdemy.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Post([FromBody]PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -69,6 +73,7 @@ namespace RestWithASPNETUdemy.Controllers
         [ProducesResponseType((200), Type = typeof(PersonVO))]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Put([FromBody] PersonVO person)
         {
             if (person == null) return BadRequest();
@@ -80,6 +85,7 @@ namespace RestWithASPNETUdemy.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(401)]
+        [Authorize("Bearer")]
         public IActionResult Delete(long id)
         {
             _personService.Delete(id);
