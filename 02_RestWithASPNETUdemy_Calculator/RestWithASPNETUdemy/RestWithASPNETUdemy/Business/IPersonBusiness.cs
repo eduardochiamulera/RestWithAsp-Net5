@@ -1,5 +1,5 @@
 ﻿using RestWithASPNETUdemy.Data.VO;
-using RestWithASPNETUdemy.Model;
+using RestWithASPNETUdemy.Hypermedia.Utils;
 using System.Collections.Generic;
 
 namespace RestWithASPNETUdemy.Business
@@ -10,7 +10,11 @@ namespace RestWithASPNETUdemy.Business
 
         PersonVO FindById(long id);
 
+        List<PersonVO> FindByName(string firstName, string lastName);
+
         List<PersonVO> FindAll();
+
+        PagedSearchVO<PersonVO> FindWithPagedSearch(string sortDirection, int pageSize, int page);
 
         PersonVO Update(PersonVO person);
 
