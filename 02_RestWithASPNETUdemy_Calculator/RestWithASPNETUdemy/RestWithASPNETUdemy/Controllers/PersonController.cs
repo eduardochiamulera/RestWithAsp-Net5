@@ -118,7 +118,6 @@ namespace RestWithASPNETUdemy.Controllers
         public IActionResult Delete(long id)
         {
             _personService.Delete(id);
-
             return NoContent();
         }
 
